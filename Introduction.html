@@ -1,0 +1,589 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>初识 React 和 Node.js - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.color.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>初识 React 和 Node.js</h1>
+<p><small>主讲：张乐</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>课程内容</h2>
+<ul>
+<li>React 工具链（俗称：React 全家桶）</li>
+<li>Node.js Web 开发</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>传统前端</h2>
+<p>HTML + CSS + JS + JQuery</p>
+<p>使用 JSP or 其他模板引擎填入数据，渲染依赖于后端</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>问题</h2>
+<ul class="fadeIn">
+<li>HTML/CSS 占主导（好的设计师就可以玩转）</li>
+<li>无模块化</li>
+<li>无法产出符合工程化要求代码</li>
+<li>组件隔离性差，无法复用</li>
+<li>异步控制流混乱</li>
+<li>多页面应用，用户体验差</li>
+<li>...</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>传统 MVC 架构</h2>
+<img src="http://img.ptcms.csdn.net/article/201510/21/56275703bfc42_middle.jpg" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>现代前端</h2>
+<p>一般采用前后分离的架构</p>
+<img src="http://img.ptcms.csdn.net/article/201510/21/5627594400199_middle.jpg" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>技术栈</h2>
+<p>ES6 + FP + Node.js + Webpack + React/Vue/Angular + 状态管理 + babel + ......</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>优势</h2>
+<ul class="fadeIn">
+<li>以 JS 为核心</li>
+<li>代码模块化</li>
+<li>开发热更新</li>
+<li>良好的工程化解决方案</li>
+<li>组件隔离性好，无门槛复用</li>
+<li>一般是单页面应用，用户体验好</li>
+<li>...</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>现代前端在数据可视化方面更为专业</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>What is React</h2>
+<p>引官方网站的一句话</p>
+<blockquote>
+<p>A JavaScript library for building user interfaces</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>使用情况</h2>
+<ul>
+<li>BAT</li>
+<li>FaceBook 全线产品</li>
+<li>知乎主站 和 APP</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>特性</h2>
+<ul>
+<li>Declarative (声明式编程)</li>
+<li>Component-Based（基于组件）</li>
+<li>Learn Once, Write Anywhere(学一次，随处可写程序)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>声明式编程 VS 命令式编程</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>命令式编程：命令“机器”如何去做事情(how)，这样不管你想要的是什么(what)，它都会按照你的命令实现。</p>
+<p>e.g.: C, Java</p>
+<pre><code class="javascript">var arr = [1,2,3,4,5,6,7]
+
+for(var i = 0; i &lt; arr.length; i++){
+  arr[i] = arr[i] * arr[i]
+}
+var res = []
+for(var i = 0; i &lt; arr.length; i++){
+  if(arr[i] % 4 == 0){
+    res.push(arr[i])
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>声明式编程：告诉“机器”你想要的是什么(what)，让机器想出如何去做(how)。</p>
+<pre><code class="javascript">var arr = [1,2,3,4,5,6,7]
+var res = arr.map(i =&gt; i * i).filter(i =&gt; i % 4 == 0)
+</code></pre>
+<p>e.g: SQL, HTML, CSS</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Web Component</h2>
+<p>组件（Component）是 React 最强大的功能之一。</p>
+<ul>
+<li>组件是自定义元素，是 React 的最小重用单元</li>
+<li>组件应该高内聚，低耦合</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">class HelloMessage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        Hello {this.props.name}
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;div&gt;
+    &lt;HelloMessage name=&quot;Taylor&quot; /&gt;
+    &lt;HelloMessage name=&quot;Zale&quot; /&gt;
+  &lt;div&gt;
+  , mountNode);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Learn Once, Write Anywhere</h2>
+<ul>
+<li>react-dom （前端开发）</li>
+<li>react-native (APP 开发)</li>
+<li>react-360 (原名:react-vr VR 开发)</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>react-dom</h2>
+<pre><code class="shell">npm install -g create-react-app
+create-react-app react-demo
+cd react-demo
+npm start
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>react-native</h2>
+<pre><code class="shell">npm install -g create-react-native-app
+create-react-native-app react-native-demo
+cd react-native-demo
+npm start
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>react-360</h2>
+<pre><code class="shell">npm install -g react-360-cli
+react-360 init react-360-demo
+cd react-360-demo
+npm start
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Node.js 简介</h2>
+
+</article></section></slide>
+<slide class="slide"   data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="glue" class="text-left"><article>
+<div class="magic-wrapper">
+<article>
+
+<h2>What Is Node.js</h2>
+<p><a href="http://nodejs.org/" target="_blank">官方主页</a>上有一段解释</p>
+<blockquote>
+<p>Node.js is a platform built on Chrome&#39;s JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p>
+</blockquote>
+
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="glue" class="text-left"><article>
+<div class="magic-wrapper">
+<article>
+<p>我们可以注意到：Node.js 是一个平台，它构建在 Chrome 的 JavaScript 引擎（也就是著名鼎鼎的 V8 引擎）之上，能快速构建具有扩展性的网络应用程序。
+这里官方用的 &quot;网络应用程序&quot;,  整个描述没有提到 &quot;web&quot;, &quot;server&quot; 等等概念。</p>
+
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="text-left slide" class="ext-left"  data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+
+<ol>
+<li>node.js 是一个构建在 Chrome JavaScript 运行环境的平台，这是很重要的一点，node.js 并不是一门语言，而是一个平台</li>
+<li>node.js 致力于使构建速度快、稳定的网络程序更简单</li>
+<li>node.js 具有事件驱动和非阻塞 I/O 的特色，使之轻量级并且高效率</li>
+<li>node.js 非常适合在分布式设备运行数据密集型实时应用程序</li>
+</ol>
+
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+<h2>Node.js 核心</h2>
+<ol>
+<li>v8 引擎, 它负责把 javascript 代码解释成本地的二进制代码运行.</li>
+<li>libuv,  类似 windows 上的窗口消息机制, 它主要负责订阅和处理系统的各种内核消息。</li>
+</ol>
+<p>libuv 专门封装 linux 上的内核消息机制.  后来 Node.js 重写了它, 并在 windows 上使用 iocp 技术重新实现了一遍。
+所以 Nodejs 现在能跨平台运行在 windows 上了.</p>
+
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h2>Why Node.js?</h2>
+<p>Node.js 出现确实能为我们解决现实当中系统瓶颈提供了新的思路和方案，下面我们看看它能解决什么问题。</p>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"  data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="zoomin"><article>
+<div class="magic-wrapper">
+<article>
+
+<h3>并发连接</h3>
+<p>举个例子，想象一个场景，我们在银行排队办理业务，我们看看下面三个模型。</p>
+
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="zoomin"><article>
+<div class="magic-wrapper">
+<article>
+<h4>（1）单线程模型：</h4>
+<p>这种模型的问题显而易见，服务端只有一个线程，并发请求（用户）到达只能处理一个，其余的要先等待，这就是阻塞，正在享受服务的请求阻塞后面的请求了。</p>
+
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="text-left slide" class="ext-left"  data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+
+<h4>（2）多线程、线程池模型：</h4>
+<p>这个模型已经比上一个有所进步，它调节服务端线程的数量来提高对并发请求的接收和响应，但并发量高的时候，请求仍然需要等待，它有个更严重的问题。到代码层面上来讲，我们看看客户端请求与服务端通讯的过程：
+服务端与客户端每建立一个连接，都要为这个连接分配一套配套的资源，主要体现为系统内存资源，以 PHP 为例，维护一个连接可能需要 20M 的内存。这就是为什么一般并发量一大，就需要多开服务器。
+那么 NodeJS 是怎么解决这个问题的呢？我们来看另外一个模型，想象一下我们在快餐店点餐吃饭的场景。</p>
+
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+<h4>（3）异步、事件驱动模型</h4>
+<p>我们同样是要发起请求，等待服务器端响应；但是与银行例子不同的是，这次我们点完餐后拿到了一个号码，拿到号码，我们往往会在位置上等待，而在我们后面的请求会继续得到处理，同样是拿了一个号码然后到一旁等待，接待员能一直进行处理。
+等到饭菜做号了，会喊号码，我们拿到了自己的饭菜，进行后续的处理（吃饭）。这个喊号码的动作在 NodeJS 中叫做回调（Callback），能在事件（烧菜，I/O）处理完成后继续执行后面的逻辑（吃饭），这体现了 NodeJS 的显著特点，异步机制、事件驱动整个过程没有阻塞新用户的连接（点餐），也不需要维护已经点餐的用户与厨师的连接。
+基于这样的机制，理论上陆续有用户请求连接，NodeJS 都可以进行响应，因此 NodeJS 能支持比 Java、PHP 程序更高的并发量虽然维护事件队列也需要成本，再由于 NodeJS 是单线程，事件队列越长，得到响应的时间就越长，并发量上去还是会力不从心。
+总结一下 NodeJS 是怎么解决并发连接这个问题的：更改连接到服务器的方式，每个连接发射（emit）一个在 NodeJS 引擎进程中运行的事件（Event），放进事件队列当中，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。</p>
+
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h3>NodeJS 的优缺点</h3>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"  data-on-build="Slide.magic" data-on-enter="Slide.magic.init"><section class="slide-wrapper"><div class="magic"><div class="magicItem current pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+
+<p>优点：</p>
+<ol>
+<li>高并发（最重要的优点）</li>
+<li>适合 I/O 密集型应用</li>
+</ol>
+
+</article>
+</div>
+</article></div>
+<div class="magicItem next pagedown"  data-transition="cover-circle"><article>
+<div class="magic-wrapper">
+<article>
+<ol>
+<li>不适合 CPU 密集型应用；CPU 密集型应用给 Node 带来的挑战主要是：由于 JavaScript 单线程的原因，如果有长时间运行的计算（比如大循环），将会导致 CPU 时间片不能释放，使得后续 I/O 无法发起；
+ 解决方案：分解大型运算任务为多个小任务，使得运算能够适时释放，不阻塞 I/O 调用的发起；</li>
+<li>只支持单核 CPU，不能充分利用 CPU</li>
+<li><p>可靠性低，一旦代码某个环节崩溃，整个系统都崩溃
+ 其中 2 和 3 的原因：单进程，单线程
+ 解决方案：</p>
+<ol>
+<li>Nnigx 反向代理，负载均衡，开多个进程，绑定多个端口；</li>
+<li>开多个进程监听同一个端口，使用 cluster 模块；</li>
+</ol>
+</li>
+<li><p>开源组件库质量参差不齐，更新快，向下不兼容</p>
+</li>
+<li>Debug 不方便，错误没有 stack trace</li>
+</ol>
+
+</article>
+</div>
+</article></div></div></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h2>Node.js 安装</h2>
+<h3>Windows 环境</h3>
+<p>直接在<a href="http://nodejs.org/" target="_blank">官方</a> 下载 msi 安装包一步步按照提示安装即可</p>
+<h3>MacOS 环境</h3>
+<p>基本同 Widows，在<a href="http://nodejs.org/" target="_blank">官方</a> 下载 pkg 安装包一步步按照提示安装即可</p>
+<h3>Linux 环境</h3>
+<p>Linux 下安装 Node.js 环境要稍微复杂点，可以下载 Source Code 本地编译安装，也可以下载 Binaries 直接解压安装即可</p>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h2>Node.js Hello World</h2>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h2>第一个 Node.js Web Server</h2>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h3>引入 required 模块</h3>
+<p>我们使用 require 指令来载入 http 模块，并将实例化的 HTTP 赋值给变量 http，实例如下:</p>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+</code></pre>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h3>创建服务器</h3>
+<p>接下来我们使用 <code>http.createServer()</code> 方法创建服务器，并使用 <code>listen()</code> 方法绑定 8888 端口。 函数通过 request, response 参数来接收和响应数据。</p>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+
+http.createServer(function (request, response) {
+
+    // 发送 HTTP 头部
+    // HTTP 状态值: 200 : OK
+    // 内容类型: text/plain
+    response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+
+    // 发送响应数据 &quot;Hello World&quot;
+    response.end(&#39;Hello World\n&#39;);
+}).listen(8888);
+
+// 终端打印如下信息
+console.log(&#39;Server running at http://127.0.0.1:8888/&#39;);
+</code></pre>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h3>Node.js 回调函数</h3>
+<p>Node.js 异步编程的直接体现就是回调。</p>
+<p>异步编程依托于回调来实现，但不能说使用了回调后程序就异步化了。</p>
+<p>回调函数在完成任务后就会被调用，Node 使用了大量的回调函数，Node 所有 API 都支持回调函数。</p>
+<p>例如，我们可以一边读取文件，一边执行其他命令，在文件读取完成后，我们将文件内容作为回调函数的参数返回。这样在执行代码时就没有阻塞或等待文件 I/O 操作。这就大大提高了 Node.js 的性能，可以处理大量的并发请求。</p>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h4>阻塞代码实例</h4>
+<p>创建一个文件 input.txt ，内容如下：</p>
+<pre><code>这是一个文本文件
+</code></pre>
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<p>创建 main.js 文件, 代码如下：</p>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+
+var data = fs.readFileSync(&#39;input.txt&#39;);
+
+console.log(data.toString());
+console.log(&quot;程序执行结束!&quot;);
+</code></pre>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<p>以上代码执行结果如下：</p>
+<pre><code>$ node main.js
+这是一个文本文件
+
+程序执行结束!
+</code></pre>
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<h4>非阻塞代码实例</h4>
+<p>修改 main.js 文件, 代码如下：</p>
+<pre><code class="javascript">var fs = require(&quot;fs&quot;);
+
+fs.readFile(&#39;input.txt&#39;, function (err, data) {
+    if (err) return console.error(err);
+    console.log(data.toString());
+});
+
+console.log(&quot;程序执行结束!&quot;);
+</code></pre>
+
+</article></section></slide>
+<slide class="text-left slide" class="ext-left"><section class="slide-wrapper"><article>
+<p>以上代码执行结果如下：</p>
+<pre><code>$ node main.js
+程序执行结束!
+这是一个文本文件
+</code></pre>
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>课程参与方式</h2>
+<ul>
+<li>注册</li>
+<li>旁听</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>注册</h2>
+<blockquote>
+<p>成为正式课程学员</p>
+</blockquote>
+<ul class="fadeIn">
+<li>享受无限次视频回放的权利</li>
+<li>享受查看课程高匹配度作业的权利</li>
+<li>享受无限次答疑的权利</li>
+<li>享受作业批改的权利</li>
+<li>有遵守<em>课程纪律</em>的义务</li>
+<li>前端小组成员 <strong>必须</strong> 以注册形式参与课程</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>旁听</h2>
+<blockquote>
+<p>成为课程旁听学员</p>
+</blockquote>
+<ul class="fadeIn">
+<li>可以根据兴趣选修任意或者全部课程</li>
+<li>无注册学员权利</li>
+<li>不需遵守<em>课程记录</em></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>课程纪律</h2>
+<ul class="fadeIn">
+<li><p>按时参与每周两次的课程</p>
+<ul>
+<li>允许任何理由的请假 <strong>3 次</strong></li>
+<li><strong>不允许</strong>不请假</li>
+</ul>
+</li>
+<li><p class="fadeIn"><span>按时完成课程作业 <span></p>
+<ul>
+<li>结束后的 <strong>3 天</strong> 内完成</li>
+<li><strong>不允许</strong>抄袭</li>
+<li>每节课的作业量会限制在 <strong>4 小时</strong> 内</li>
+</ul>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>违反惩罚</h2>
+<ul>
+<li>转为非注册（前端小组成员同时影响考评）</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Thanks</h2>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
