@@ -1,0 +1,326 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ES6 系统入门  - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业评讲</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>等级</h2>
+<ul>
+<li>FAIL（需在<strong>一日</strong>内重新提交）</li>
+<li>PASS（一般 60 - 94分）</li>
+<li>GOOD（一般 95 分以上）</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>普遍问题</h2>
+<ul class="fadeIn">
+<li>对 JSX 的理解</li>
+<li>无法实现每次访问计数器加一</li>
+<li>代码风格和说明</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>ES6 系统入门</h1>
+<p><small>主讲：张乐</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>相关资料</h2>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/" target="_blank">ECMAScript 6 入门</a></li>
+<li><a href="http://babeljs.io/" target="_blank">ES6 编译器 Babel.js</a></li>
+<li><a href="http://babeljs.io/repl/" target="_blank">Babel 在线编译器</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>简介</h2>
+<p>ECMAScript 和 JavaScript 的关系是，前者是后者的<strong>规格</strong>，后者是前者的一种<strong>实现</strong>。</p>
+<p>日常场合，这两个词是可以互换的。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>语法提案</h2>
+<p>任何人都可以向标准委员会（又称 TC39 委员会）提案，要求修改语言标准。</p>
+<ul>
+<li>Stage 0 - Strawman（展示阶段）</li>
+<li>Stage 1 - Proposal（征求意见阶段）</li>
+<li>Stage 2 - Draft（草案阶段）</li>
+<li>Stage 3 - Candidate（候选人阶段）</li>
+<li>Stage 4 - Finished（定案阶段）</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Babel.js</h2>
+<pre><code class="shell">npm install --global babel-cli
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="shell"># 转码结果输出到标准输出
+$ babel example.js
+
+# 转码结果写入一个文件
+# --out-file 或 -o 参数指定输出文件
+$ babel example.js -o compiled.js
+
+# 整个目录转码
+# --out-dir 或 -d 参数指定输出目录
+$ babel src -d lib
+
+# -s 参数生成source map文件
+$ babel src -d lib -s
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>babel-polyfill</h2>
+<p>Babel 默认只转换新的 JavaScript <strong>句法</strong>（syntax），而不转换新的 <strong>API</strong></p>
+<p>举例来说，ES6 在<code>Array</code>对象上新增了<code>Array.from</code>方法。Babel 就不会转码这个方法。如果想让这个方法运行，必须使用babel-polyfill，为当前环境提供一个垫片。</p>
+<pre><code class="shell">npm install --save babel-polyfill
+</code></pre>
+<pre><code class="js">import &#39;babel-polyfill&#39;;
+// 或者
+require(&#39;babel-polyfill&#39;);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>var</h3>
+<p>JavaScript中，我们通常说的作用域是函数作用域，使用var声明的变量，无论是在代码的哪个地方声明的，都会提升到当前作用域的最顶部，这种行为叫做<strong>变量提升（Hoisting）</strong></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">function test() {
+  console.log(a) // ?
+  if (true) {
+    var a = 1
+  }
+  console.log(a) // ?
+}
+
+test()
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">var arr = []
+for(var i = 0; i &lt; 10;i++){
+  arr[i] = function(){
+    console.log(i)
+  }
+}
+
+arr[6]() //??
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>let 和 const</h3>
+<p>let和const都能够声明块级作用域，用法和var是类似的，let的特点是不会变量提升，而是被锁在当前块中。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="javascript">function test() {
+  if(true) {
+    console.log(a)//TDZ，俗称临时死区，用来描述变量不提升的现象
+    let a = 1
+  }
+}
+test()  // a is not defined
+
+function test() {
+  if(true) {
+    let a = 1
+  }
+  console.log(a)
+}    
+test() // a is not defined
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>在for循环中使用var声明的循环变量，会跳出循环体污染当前的函数</p>
+<p>如何修复？</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>const和let的异同点</h3>
+<ul>
+<li><p><strong>相同点：</strong>const和let都是在当前块内有效，执行到块外会被销毁，也不存在变量提升（TDZ），不能重复声明。</p>
+</li>
+<li><p><strong>不同点：</strong>const不能再赋值，let声明的变量可以重复赋值。</p>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/destructuring" target="_blank">解构</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>字符串</h2>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/string#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2" target="_blank">模板字面量</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/string#%E6%A0%87%E7%AD%BE%E6%A8%A1%E6%9D%BF" target="_blank">标签模板</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>函数</h2>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/function#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E7%9A%84%E9%BB%98%E8%AE%A4%E5%80%BC" target="_blank">函数参数的默认值</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/function#rest-%E5%8F%82%E6%95%B0" target="_blank">rest 参数</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/function#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0" target="_blank">箭头函数</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/function#%E5%8F%8C%E5%86%92%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6" target="_blank">双冒号运算符</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/function#%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96" target="_blank">尾调用优化</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>对象</h2>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#%E5%B1%9E%E6%80%A7%E7%9A%84%E7%AE%80%E6%B4%81%E8%A1%A8%E7%A4%BA%E6%B3%95" target="_blank">属性的简洁表示法</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#%E5%B1%9E%E6%80%A7%E5%90%8D%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank">属性名表达式</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#%E6%96%B9%E6%B3%95%E7%9A%84-name-%E5%B1%9E%E6%80%A7" target="_blank">方法的 name 属性</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#Object-assign" target="_blank">Object-assign</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC" target="_blank">解构赋值</a></li>
+<li><a href="http://es6.ruanyifeng.com/#docs/object#%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6" target="_blank">扩展运算符</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/symbol" target="_blank">symbol</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/generator#next-%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0" target="_blank">generator 函数</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank">promise 对象</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/generator-async" target="_blank">Generator 函数的异步应用</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/async" target="_blank">async 函数</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/decorator" target="_blank">decorator (装饰器)</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/module" target="_blank">模块化</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="http://es6.ruanyifeng.com/#docs/proposals" target="_blank">最新提案</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Thanks</h2>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
