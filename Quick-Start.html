@@ -1,0 +1,507 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>初识 React - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业评讲</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>下面代码输出是什么？结合前几题，试理解this静态绑定的绑定规则。</p>
+<pre><code class="js">var id = 2;
+function foo() {
+  return () =&gt; {
+    console.log(&#39;id:&#39;, this.id);
+  };
+}
+foo.call({id: 1})()
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>下面代码的输出结果是什么？为什么？（饿了么面试题）</p>
+<pre><code class="js">setTimeout(function() {
+  console.log(1)
+}, 0);
+new Promise(function executor(resolve) {
+  console.log(2);
+  for( var i=0 ; i&lt;10000 ; i++ ) {
+    i == 9999 &amp;&amp; resolve();
+  }
+  console.log(3);
+}).then(function() {
+  console.log(4);
+});
+console.log(5);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>真正发出异步操作指令是在 Generator 函数外还是在 Generator 函数内？</p>
+<p>（HINT: 基于 Thunk 函数和基于 Promise 两种 Generator 函数异步控制流，情况不一样）</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">const thunkify = function(fn) {
+  return function (...args) {
+    return function (callback) {
+      return fn.call(this, ...args, callback);
+    }
+  };
+};
+</code></pre>
+<pre><code class="js">var readFileThunk = thunkify(fs.readFile);
+readFileThunk(&quot;filename&quot;)(callback);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">var gen = function* (){
+  var r1 = yield readFileThunk(&#39;file1&#39;);
+  console.log(r1.toString());
+  var r2 = yield readFileThunk(&#39;file2&#39;);
+  console.log(r2.toString());
+};
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">var fs = require(&#39;fs&#39;);
+
+var readFile = function (fileName){
+  return new Promise(function (resolve, reject){
+    fs.readFile(fileName, function(error, data){
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+};
+
+var gen = function* (){
+  var f1 = yield readFile(&#39;/etc/fstab&#39;);
+  var f2 = yield readFile(&#39;/etc/shells&#39;);
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>在全局域或者普通函数中能使用 await 或 yield 关键字吗？为什么？</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业时限</h2>
+<p>周二作业 -&gt; 周六晚24:00</p>
+<p>周四作业 -&gt; 周一晚24:00</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>初识 React</h1>
+<p><small>主讲：张乐</small></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>创建一个新的 react 项目</p>
+<blockquote>
+<p>此方法一般用于练习或是演示，实际工程中不建议使用</p>
+</blockquote>
+<pre><code class="shell">npm install -g create-react-app
+create-react-app react-demo
+cd react-demo
+npm start
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>或者使用在线编辑器 <a href="https://codesandbox.io/" target="_blank">CodeSandbox</a></p>
+<p>小项目代码题可用此途径提交作业，需要翻墙</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Hello world</h2>
+<pre><code class="jsx">ReactDOM.render(
+  &lt;h1&gt;Hello, world!&lt;/h1&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>JSX</h2>
+<pre><code class="jsx">const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;
+</code></pre>
+<p>这种有趣的标签语法既不是字符串也不是HTML。</p>
+<p>这就是 JSX ，他是 JavaScrip 的一种扩展语法。我们推荐在 React 中使用这种语法来描述 UI 信息。JSX 可能会让你想起某种模板语言，但是它具有 JavaScrip 的全部能力。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>嵌入表达式</h2>
+<pre><code class="jsx">function formatName(user) {
+  return user.firstName + &#39; &#39; + user.lastName;
+}
+
+const user = {
+  firstName: &#39;Harper&#39;,
+  lastName: &#39;Perez&#39;
+};
+
+const element = (
+  &lt;h1&gt;
+    Hello, {formatName(user)}!
+  &lt;/h1&gt;
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>JSX 是 表达式</h2>
+<p>编译之后，JSX 表达式就变成了常规的 JavaScript 对象。</p>
+<p>我们可以使用 babel 编译，看看编译结果</p>
+<pre><code class="jsx">const element = &lt;h1&gt;Hello, world!&lt;/h1&gt;;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>下面的两个例子是是完全相同的：</p>
+<pre><code class="jsx">const element = (
+  &lt;h1 className=&quot;greeting&quot;&gt;
+    Hello, world!
+  &lt;/h1&gt;
+);
+const element = React.createElement(
+  &#39;h1&#39;,
+  {className: &#39;greeting&#39;},
+  &#39;Hello, world!&#39;
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>React.createElement() 会执行一些检查来帮助你编写没有bug的代码，但基本上它会创建一个如下所示的对象：</p>
+<pre><code class="jsx">// 注意: 这是简化的结构
+const element = {
+  type: &#39;h1&#39;,
+  props: {
+    className: &#39;greeting&#39;,
+    children: &#39;Hello, world&#39;
+  }
+};
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>指定属性值</h2>
+<p>可以使用双引号来指定字符串字面量作为属性值：</p>
+<pre><code class="jsx">const element = &lt;div tabIndex=&quot;0&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>可以用花括号嵌入一个 JavaScript 表达式作为属性值:</p>
+<pre><code class="jsx">const element = &lt;img src={user.avatarUrl}&gt;&lt;/img&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>防止注入攻击</h2>
+<pre><code class="jsx">const element = &lt;h1&gt;{title}&lt;/h1&gt;;
+</code></pre>
+<p>默认情况下， 在渲染之前, React DOM 会格式化(escapes) JSX中的所有值. 从而保证用户无法注入任何应用之外的代码.</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>组件(Components) 和 属性(Props)</h2>
+<p>组件使你可以将 UI 划分为一个一个独立，可复用的小部件，并可以对每个部件进行单独的设计。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>最简单的定义组件的方法是写一个 JavaScript 函数:</p>
+<pre><code class="jsx">function Welcome(props) {
+  return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+</code></pre>
+<p>这个函数是一个有效的 React 组件，因为它接收一个 props 参数, 并返回一个 React 元素。 我们把此类组件称为”函数式(Functional)“组件， 因为从字面上看来它就是一个 JavaScript 函数。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>也可以用一个 ES6 的 class 来定义一个组件:</p>
+<pre><code class="jsx">class Welcome extends React.Component {
+  render() {
+    return &lt;h1&gt;Hello, {this.props.name}&lt;/h1&gt;;
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>可以使用 jsx 语法来创建组件对象</p>
+<pre><code class="jsx">function Welcome(props) {
+  return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+
+const element = &lt;Welcome name=&quot;Sara&quot; /&gt;;
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>组件是最小复用单元</p>
+<p>我们可以使用 js 语法来创建多个组件</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>如何表示 for 或 if 的逻辑？</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">const ele = [1,2,3].map(i=&gt;(&lt;Welcome name={i}/&gt;))
+
+ReactDOM.render(ele, document.getElementById(&#39;root&#39;))
+</code></pre>
+<pre><code class="jsx">const flag = true
+const ele = flag &amp;&amp; &lt;Welcome name={i}/&gt;
+
+ReactDOM.render(ele, document.getElementById(&#39;root&#39;))
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>React 只更新必需要更新的部分</h2>
+<p>React DOM 会将元素及其子元素与之前版本逐一对比, 并只对有必要更新的 DOM 进行更新, 以达到 DOM 所需的状态。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>状态(State) 和 生命周期</h2>
+<p>有的时候，我们需要组件有内部状态</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">class Clock extends React.Component {
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Hello, world!&lt;/h1&gt;
+        &lt;h2&gt;It is {new Date().toLocaleTimeString()}.&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>如何让时间动起来？</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">class Clock extends React.Component {
+  state = {date: new Date()}
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () =&gt; this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Hello, world!&lt;/h1&gt;
+        &lt;h2&gt;It is {this.state.date.toLocaleTimeString()}.&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul>
+<li><p>当 <Clock /> 被传入 ReactDOM.render() 时, React 会调用 Clock组件的构造函数。 因为 Clock 要显示的是当前时间，所以它将使用包含当前时间的对象来初始化 this.state 。我们稍后会更新此状态。</p>
+</li>
+<li><p>然后 React 调用了 Clock 组件的 render() 方法。 React 从该方法返回内容中得到要显示在屏幕上的内容。然后，React 然后更新 DOM 以匹配 Clock 的渲染输出。</p>
+</li>
+<li><p>当 Clock 输出被插入到 DOM 中时，React 调用 componentDidMount() 生命周期钩子。在该方法中，Clock 组件请求浏览器设置一个定时器来一次调用 tick()。</p>
+</li>
+<li><p>浏览器会每隔一秒调用一次 tick()方法。在该方法中， Clock 组件通过 setState() 方法并传递一个包含当前时间的对象来安排一个 UI 的更新。通过 setState(), React 得知了组件 state(状态)的变化, 随即再次调用 render() 方法，获取了当前应该显示的内容。 这次，render() 方法中的 this.state.date 的值已经发生了改变， 从而，其输出的内容也随之改变。React 于是据此对 DOM 进行更新。</p>
+</li>
+<li><p>如果通过其他操作将 Clock 组件从 DOM 中移除了, React 会调用 componentWillUnmount() 生命周期钩子, 所以计时器也会被停止。</p>
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>正确地使用 State(状态)</h2>
+<ul>
+<li><strong>不要直接修改 state(状态) </strong></li>
+<li><strong>state(状态) 更新可能是异步的</strong></li>
+<li>state(状态)更新会被合并</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">// 错误
+this.state.comment = &#39;Hello&#39;;
+// 正确
+this.setState({comment: &#39;Hello&#39;});
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="jsx">// 错误
+this.setState({
+  counter: this.state.counter + this.props.increment,
+});
+// 正确
+this.setState((prevState, props) =&gt; ({
+  counter: prevState.counter + props.increment
+}));
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>数据向下流动</h2>
+<p>无论作为父组件还是子组件，它都无法获悉一个组件是否有状态，同时也不需要关心另一个组件是定义为函数组件还是类组件。</p>
+<p>这就是 state(状态) 经常被称为 本地状态 或 封装状态的原因。 它不能被拥有并设置它的组件 以外的任何组件访问。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>TODO List</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>数据如何向上流动那？</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>使用 props 传递函数</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Thanks</h2>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
