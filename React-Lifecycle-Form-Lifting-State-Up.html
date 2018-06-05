@@ -1,0 +1,257 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>React 生命周期、表单、状态提升 - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业评讲</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>请实现如下效果，注意第一行的计数器在父组件中，两个<code>Button</code>为两个 Component</p>
+<img src="http://static.mafengshe.com/work/vue/component-partent-child.gif" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p><a href="https://codesandbox.io/s/w6jpwr1qk5" target="_blank">同学作业</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>React 生命周期</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>回想下我们的作业</p>
+<blockquote>
+<p>请使用属性动态绑定实现一个 <code>&lt;img&gt;</code> 的 <code>src</code> 属性每隔 1s 自动变换，以实现图片自动切换。</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<img src="assets/imgs/react-life-cycle.png" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentWillMount 在渲染前调用,在客户端也在服务端。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentDidMount : 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。 如果你想和其他JavaScript框架一起使用，可以在这个方法中调用setTimeout, setInterval或者发送AJAX请求等操作(防止异部操作阻塞UI)。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentWillReceiveProps 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>shouldComponentUpdate 返回一个布尔值。在组件接收到新的props或者state时被调用。在初始化时或者使用forceUpdate时不被调用。 </p>
+<p>可以在你确认不需要更新组件时使用。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentWillUpdate在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentDidUpdate 在组件完成更新后立即调用。在初始化时不会被调用。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>componentWillUnmount在组件从 DOM 中移除的时候立刻被调用。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>表单</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">class NameForm extends React.Component {
+  state = {value: &#39;&#39;};
+
+  handleChange = (event) =&gt; {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit = (event) =&gt; {
+    alert(&#39;A name was submitted: &#39; + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}&gt;
+        &lt;label&gt;
+          Name:
+          &lt;input type=&quot;text&quot; value={this.state.value} onChange={this.handleChange} /&gt;
+        &lt;/label&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+      &lt;/form&gt;
+    );
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>select 标签</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">class FlavorForm extends React.Component {
+  state = {value: &#39;coconut&#39;};
+
+  handleChange = (event) =&gt; {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit = (event) =&gt; {
+    alert(&#39;Your favorite flavor is: &#39; + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}&gt;
+        &lt;label&gt;
+          Pick your favorite La Croix flavor:
+          &lt;select value={this.state.value} onChange={this.handleChange}&gt;
+            &lt;option value=&quot;grapefruit&quot;&gt;Grapefruit&lt;/option&gt;
+            &lt;option value=&quot;lime&quot;&gt;Lime&lt;/option&gt;
+            &lt;option value=&quot;coconut&quot;&gt;Coconut&lt;/option&gt;
+            &lt;option value=&quot;mango&quot;&gt;Mango&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/label&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+      &lt;/form&gt;
+    );
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>状态提升</h2>
+<p>通常情况下，同一个数据的变化需要几个不同的组件来反映。所以实践中建议提升共享的状态到它们最近的祖先组件</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<iframe src="https://codesandbox.io/embed/72kkyk7p21?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p><a href="https://codesandbox.io/s/72kkyk7p21" target="_blank"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit 72kkyk7p21"></a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>在一个 React 应用中，对于任何可变的数据都应该循序“单一数据源”原则。通常情况下，state 首先被添加到需要它进行渲染的组件。然后，如果其它的组件也需要它，你可以提升状态到它们最近的祖先组件。你应该依赖 从上到下的数据流向 ，而不是试图在不同的组件中同步状态。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><a href="https://codesandbox.io/s/2j3x07qymn" target="_blank">实战</a></h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p><strong>思考</strong>：实践中父子组件嵌套会很深，逐级传递麻烦而且易出错，怎么办？</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/34382261" target="_blank">react context api</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html" target="_blank">redux</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>Thanks</p>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
