@@ -1,0 +1,514 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>状态管理：Context 和 Redux - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业评讲</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>请将上课实操<a href="https://codesandbox.io/s/387mr0rxvq" target="_blank">代码</a>的按照如图所示的 Component 结构重构。要求：</p>
+<ul>
+<li>除了根组件，其他组件都是 function Component</li>
+<li><p>图中相同颜色的框代表是相同的 Component</p>
+<img src="https://static.mafengshe.com/react-node/img/thinking-in-react-components.png" alt="">
+</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p><a href="https://codesandbox.io/s/73qv658my1" target="_blank">同学的代码</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p><strong>思考</strong>：实践中父子组件嵌套会很深，逐级传递麻烦而且易出错，怎么办？</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Context API 和 状态管理</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>React Context API (new)</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<img src="https://static.mafengshe.com/react-node/Context.jpg" alt="">
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>导入 Context，并创建 Context</p>
+<pre><code class="js">import { createContext } from &#39;react&#39;;
+
+const Context = createContext()
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>使用 Provider</p>
+<pre><code class="js">&lt;Context.Provider value={data}&gt;
+  &lt;Child&gt;&lt;/Child&gt;
+
+&lt;/Context.Provider&gt;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>使用 Consumer </p>
+<pre><code class="js">const Child = () =&gt; (
+  &lt;Context.Consumer&gt;
+    {data =&gt; (
+      &lt;div&gt;
+        &lt;div&gt;{data.res}&lt;/div&gt;
+        &lt;button onClick={data.handleClick}&gt;click&lt;/button&gt;
+      &lt;/div&gt;
+    )}
+  &lt;/Context.Consumer&gt;
+);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>例子</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>如何快速改造已有的 Function Component？</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Redux</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>不需要使用 Redux</p>
+<ul class="fadeIn">
+<li>用户的使用方式非常简单</li>
+<li>用户之间没有协作</li>
+<li>不需要与服务器大量交互，也没有使用 WebSocket</li>
+<li>视图层（View）只从单一来源获取数据</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>可能需要使用 Redux</p>
+<ul class="fadeIn">
+<li>用户的使用方式复杂</li>
+<li>不同身份的用户有不同的使用方式（比如普通用户和管理员）</li>
+<li>多个用户之间可以协作</li>
+<li>与服务器大量交互，或者使用了WebSocket</li>
+<li>View要从多个来源获取数据</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>如果出现以下情况，应该考虑使用 Redux</p>
+<ul>
+<li>某个组件的状态，需要共享</li>
+<li>某个状态需要在任何地方都可以拿到</li>
+<li>一个组件需要改变全局状态</li>
+<li>一个组件需要改变另一个组件的状态</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Redux 设计思想</h2>
+<ol class="fadeIn">
+<li>Web 应用是一个状态机，视图与状态是一一对应的。</li>
+<li>所有的状态，保存在一个对象里面。</li>
+</ol>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>基本概念和 API</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>Store</h3>
+<p>Store 就是保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。</p>
+<p>Redux 提供createStore这个函数，用来生成 Store。</p>
+<pre><code class="js">import { createStore } from &#39;redux&#39;;
+const store = createStore(fn);
+</code></pre>
+<p>上面代码中，createStore函数接受另一个函数作为参数，返回新生成的 Store 对象。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>State</h3>
+<p>Store对象包含所有数据。如果想得到某个时点的数据，就要对 Store 生成快照。这种时点的数据集合，就叫做 State。</p>
+<p>当前时刻的 State，可以通过store.getState()拿到。</p>
+<pre><code class="js">import { createStore } from &#39;redux&#39;;
+const store = createStore(fn);
+
+const state = store.getState();
+</code></pre>
+<p>Redux 规定， 一个 State 对应一个 View。只要 State 相同，View 就相同。即 f(State) = View</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>Action</h3>
+<p>State 的变化，会导致 View 的变化。但是，用户接触不到 State，只能接触到 View。所以，State 的变化必须是 View 导致的。Action 就是 View 发出的通知，表示 State 应该要发生变化了。</p>
+<p>Action 是一个对象。其中的type属性是必须的，表示 Action 的名称。其他属性可以自由设置，社区有一个规范可以参考。</p>
+<pre><code class="js">const action = {
+  type: &#39;ADD_TODO&#39;,
+  payload: &#39;Learn Redux&#39;
+};
+</code></pre>
+<p>上面代码中，Action 的名称是ADD_TODO，它携带的信息是字符串Learn Redux。</p>
+<p>可以这样理解，Action 描述当前发生的事情。改变 State 的唯一办法，就是使用 Action。它会运送数据到 Store。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h3>Action Creator</h3>
+<p>View 要发送多少种消息，就会有多少种 Action。如果都手写，会很麻烦。可以定义一个函数来生成 Action，这个函数就叫 Action Creator。</p>
+<pre><code class="js">const ADD_TODO = &#39;添加 TODO&#39;;
+function addTodo(text) {
+  return {
+    type: ADD_TODO,
+    text
+  }
+}
+</code></pre>
+<p>const action = addTodo(&#39;Learn Redux&#39;);
+上面代码中，addTodo函数就是一个 Action Creator。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>store.dispatch()</h2>
+<p>store.dispatch()是 View 发出 Action 的唯一方法。</p>
+<pre><code class="js">import { createStore } from &#39;redux&#39;;
+const store = createStore(fn);
+
+store.dispatch({
+  type: &#39;ADD_TODO&#39;,
+  payload: &#39;Learn Redux&#39;
+});
+</code></pre>
+<p>上面代码中，store.dispatch接受一个 Action 对象作为参数，将它发送出去。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>结合 Action Creator，这段代码可以改写如下。</p>
+<pre><code class="js">store.dispatch(addTodo(&#39;Learn Redux&#39;));
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>store.subscribe()</h2>
+<p>Store 允许使用store.subscribe方法设置监听函数，一旦 State 发生变化，就自动执行这个函数。</p>
+<pre><code class="js">import { createStore } from &#39;redux&#39;;
+const store = createStore(reducer);
+
+store.subscribe(listener);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">let unsubscribe = store.subscribe(() =&gt;
+  console.log(store.getState())
+);
+
+unsubscribe();
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Reducer</h2>
+<p>Store 收到 Action 以后，必须给出一个新的 State，这样 View 才会发生变化。这种 State 的计算过程就叫做 Reducer。</p>
+<p>Reducer 是一个函数，它接受 Action 和当前 State 作为参数，返回一个新的 State。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>整个应用的初始状态，可以作为 State 的默认值。下面是一个实际的例子。</p>
+<pre><code class="js">const defaultState = 0;
+const reducer = (state = defaultState, action) =&gt; {
+  switch (action.type) {
+    case &#39;ADD&#39;:
+      return state + action.payload;
+    default: 
+      return state;
+  }
+};
+
+const state = reducer(1, {
+  type: &#39;ADD&#39;,
+  payload: 2
+});
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Why Reducer</h2>
+<pre><code class="js">const actions = [
+  { type: &#39;ADD&#39;, payload: 0 },
+  { type: &#39;ADD&#39;, payload: 1 },
+  { type: &#39;ADD&#39;, payload: 2 }
+];
+
+const total = actions.reduce(reducer, 0); // 3
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Reducer 是纯函数</h2>
+<p>Reducer 函数最重要的特征是，它是一个纯函数。也就是说，只要是同样的输入，必定得到同样的输出。</p>
+<p>纯函数是函数式编程的概念，必须遵守以下一些约束。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul class="fadeIn">
+<li>不得改写参数</li>
+<li>不能调用系统 I/O 的API</li>
+<li>不能调用Date.now()或者Math.random()等不纯的方法，因为每次会得到不一样的结果</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>由于 Reducer 是纯函数，就可以保证同样的State，必定得到同样的 View。但也正因为这一点，Reducer 函数里面不能改变 State，必须返回一个全新的对象，请参考下面的写法。</p>
+<pre><code class="js">// State 是一个对象
+function reducer(state, action) {
+  return Object.assign({}, state, { thingToChange });
+  // 或者
+  return { ...state, ...newState };
+}
+
+// State 是一个数组
+function reducer(state, action) {
+  return [...state, newItem];
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>React-Redux</h2>
+<p>为了方便使用，Redux 的作者封装了一个 React 专用的库 React-Redux</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component）。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>UI 组件有以下几个特征</p>
+<ul class="fadeIn">
+<li>只负责 UI 的呈现，不带有任何业务逻辑</li>
+<li>没有状态（即不使用this.state这个变量）</li>
+<li>所有数据都由参数（this.props）提供</li>
+<li>不使用任何 Redux 的 API</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>一般是 Function Component，如</p>
+<pre><code class="js">const Title =
+  value =&gt; &lt;h1&gt;{value}&lt;/h1&gt;;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>容器组件有以下几个特征</p>
+<ul class="fadeIn">
+<li>负责管理数据和业务逻辑，不负责 UI 的呈现</li>
+<li>带有内部状态</li>
+<li>使用 Redux 的 API</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>connect()</h2>
+<p>React-Redux 提供connect方法，用于从 UI 组件生成容器组件。connect的意思，就是将这两种组件连起来。</p>
+<pre><code class="js">import { connect } from &#39;react-redux&#39;
+const VisibleTodoList = connect()(TodoList);
+</code></pre>
+<p>上面代码中，TodoList是 UI 组件，VisibleTodoList就是由 React-Redux 通过connect方法自动生成的容器组件。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>我们还需定义 UI 组件的输入输出，因此，connect方法的完整 API 如下。</p>
+<pre><code class="js">import { connect } from &#39;react-redux&#39;
+
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>mapStateToProps()</h2>
+<p>mapStateToProps是一个函数。它的作用就是像它的名字那样，建立一个从（外部的）state对象到（UI 组件的）props对象的映射关系。</p>
+<p>作为函数，mapStateToProps执行后应该返回一个对象，里面的每一个键值对就是一个映射。请看下面的例子。</p>
+<pre><code class="js">const mapStateToProps = (state) =&gt; {
+  return {
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>mapStateToProps会订阅 Store，每当state更新的时候，就会自动执行，重新计算 UI 组件的参数，从而触发 UI 组件的重新渲染。</p>
+<p>mapStateToProps的第一个参数总是state对象，还可以使用第二个参数，代表容器组件的props对象。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>mapDispatchToProps()</h2>
+<p>mapDispatchToProps是connect函数的第二个参数，用来建立 UI 组件的参数到store.dispatch方法的映射。也就是说，它定义了哪些用户的操作应该当作 Action，传给 Store。它可以是一个函数，也可以是一个对象。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>如果mapDispatchToProps是一个函数，会得到dispatch和ownProps（容器组件的props对象）两个参数。</p>
+<pre><code class="js">const mapDispatchToProps = (
+  dispatch,
+  ownProps
+) =&gt; {
+  return {
+    onClick: () =&gt; {
+      dispatch({
+        type: &#39;SET_VISIBILITY_FILTER&#39;,
+        filter: ownProps.filter
+      });
+    }
+  };
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>如果mapDispatchToProps是一个对象，它的每个键名也是对应 UI 组件的同名参数，键值应该是一个函数，会被当作 Action creator ，返回的 Action 会由 Redux 自动发出。举例来说，上面的mapDispatchToProps写成对象就是下面这样。</p>
+<pre><code class="js">const mapDispatchToProps = {
+  onClick: (filter) =&gt; {
+    type: &#39;SET_VISIBILITY_FILTER&#39;,
+    filter: filter
+  };
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2><code>&lt;Provider&gt;</code> 组件</h2>
+<p>connect方法生成容器组件以后，需要让容器组件拿到state对象，才能生成 UI 组件的参数。</p>
+<p>React-Redux 提供Provider组件，可以让容器组件拿到state。</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>在<code>&lt;App&gt;</code>中我们可以随时通过 <code>connect()</code> 获取 state</p>
+<pre><code class="js">import { Provider } from &#39;react-redux&#39;
+import { createStore } from &#39;redux&#39;
+import todoApp from &#39;./reducers&#39;
+import App from &#39;./components/App&#39;
+
+let store = createStore(todoApp);
+
+render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(&#39;root&#39;)
+)
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>实战</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html" target="_blank">redux</a></li>
+</ul>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
