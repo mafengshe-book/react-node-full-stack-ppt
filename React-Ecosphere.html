@@ -1,0 +1,221 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>React 生态圈 - By 张乐</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.moon.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article>
+<h2>作业评讲</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>React-Router 如何实现路由钩子？为使使用简便，我们应该如何包装？请给出 Demo</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<pre><code class="js">class Tab1 extends React.Component {
+  componentWillMount () {
+    // 这里是实现
+  }
+  componentWillUnmount (){
+    // 这里是实现
+  }
+  render() {
+    return &lt;div&gt;tab1&#39;s content&lt;/div&gt;
+  }
+}
+class Tab2 extends React.Component {
+  componentWillMount () {
+    // 这里是实现
+  }
+  componentWillUnmount (){
+    // 这里是实现
+  }
+  render() {
+    return &lt;div&gt;tab2&#39;s content&lt;/div&gt;
+  }
+}
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>HOC？</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>TodoList 如何持久化？</h2>
+<ul class="fadeIn">
+<li>localStorage</li>
+<li>注意：localStorage 只能存储 String</li>
+<li><code>JSON.stringify() &lt;-&gt; JSON.parse()</code></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>React 生态圈</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Webpack</h2>
+<blockquote>
+<p>万事俱备，只差一个 Webpack 配置工程师</p>
+</blockquote>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Why we can ?</h2>
+<pre><code class="js">import &#39;xxx.css&#39;
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p><a href="https://www.webpackjs.com/concepts/" target="_blank">Webpack</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>如何使我们自己写的 Component 更易用？</p>
+<ul class="fadeIn">
+<li>定义 props 类型</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>TypeScript</h2>
+<ul class="fadeIn">
+<li><a href="http://www.css88.com/doc/typescript/doc/handbook/Basic%20Types.html" target="_blank">基础入门</a></li>
+<li><a href="http://www.css88.com/doc/typescript/doc/handbook/tutorials/React.html" target="_blank">与 React 配合使用</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>服务器端渲染(SSR)</h2>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>为什么使用服务器端渲染(SSR)？</h2>
+<p>与传统 SPA（Single-Page Application - 单页应用程序）相比，服务器端渲染(SSR)的优势主要在于：</p>
+<ol>
+<li>更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。</li>
+<li>解决首屏白屏问题</li>
+<li>顺应时代潮流（开玩笑啦！）</li>
+</ol>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>核心函数</h2>
+<p>renderToString 方法把Virtual DOM转换成HTML字符串。从而达到服务端渲染的目的</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>开箱即用的 Next.js</h2>
+<p><a href="https://github.com/zeit/next.js" target="_blank">https://github.com/zeit/next.js</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>常用 UI 库</h2>
+<ul class="fadeIn">
+<li><a href="https://ant.design/docs/react/introduce-cn" target="_blank">Antd</a> 和 <a href="http://preview.pro.ant.design/" target="_blank">Antd Pro</a></li>
+<li><a href="https://material-ui.com/getting-started/installation/" target="_blank">material-ui</a> <a href="https://demos.creative-tim.com/material-dashboard-pro-react/" target="_blank">预览</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>单元测试</h2>
+<ul class="fadeIn">
+<li><a href="http://www.ruanyifeng.com/blog/2016/02/react-testing-tutorial.html" target="_blank">单元测试入门</a></li>
+<li><a href="https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#running-tests" target="_blank">create-react-app</a></li>
+<li><a href="http://airbnb.io/enzyme/" target="_blank">enzyme</a></li>
+</ul>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!--placeholder-->
+</body>
+</html>
