@@ -1,0 +1,192 @@
+<!--
+    Powered By nodeppt - This is probably the best web presentation tool so far!
+    version: 1.4.5
+    site: https://github.com/ksky521/nodeppt
+    date: 
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Node API - By Mark</title>
+    <link rel="stylesheet" media="all" href="assets/css/nodeppt.css">
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="assets/css/phone.css">
+    
+    <link rel="stylesheet" href="assets/js/highlight/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    
+<link rel="stylesheet" href="assets/css/theme.light.css">
+</head>
+<body>
+<div class="slides">
+    <slides id="container">
+        <slide class="slide"><section class="slide-wrapper"><article class="flexbox vcenter">
+<h1>Node API</h1>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>Hello world</h2>
+<pre><code class="javascript">var http = require(&quot;http&quot;);
+
+http.createServer(function (request, response) {
+
+    // 发送 HTTP 头部
+    // HTTP 状态值: 200 : OK
+    // 内容类型: text/plain
+    response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/plain&#39;});
+
+    // 发送响应数据 &quot;Hello World&quot;
+    response.end(&#39;Hello World\n&#39;);
+}).listen(8888);
+
+// 终端打印如下信息
+console.log(&#39;Server running at http://127.0.0.1:8888/&#39;);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>回想</p>
+<pre><code class="js">var fs = require(&quot;fs&quot;);
+
+fs.readFile(&#39;input.txt&#39;, function (err, data) {
+    if (err) return console.error(err);
+    console.log(data.toString());
+});
+
+console.log(&quot;程序执行结束!&quot;);
+</code></pre>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<h2>如何进行 async/await 化改造?</h2>
+<ul class="fadeIn">
+<li>改造为 Promise API</li>
+<li>使用 async/await 改写</li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>我们可以手动改造，也可以使用社区提供的 Promiseify</p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>但是我们也可以使用更好的工具 <a href="https://www.npmjs.com/package/fs-extra" target="_blank">fs-extra</a></p>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>其中知识点：</p>
+<ul>
+<li><a href="http://nodejs.cn/api/modules.html" target="_blank">模块</a></li>
+<li><a href="http://nodejs.cn/api/fs.html" target="_blank">fs</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>思考：当读取一个文件大文件时，我们该怎么办？</p>
+<ul>
+<li><a href="http://nodejs.cn/api/events.html" target="_blank">event</a></li>
+<li><a href="http://nodejs.cn/api/stream.html" target="_blank">stream</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>Node.js 是单线程编程模型，如何利用多核 CPU？</p>
+<ul>
+<li><a href="http://nodejs.cn/api/cluster.html" target="_blank">cluster</a></li>
+</ul>
+
+</article></section></slide>
+<slide class="slide"><section class="slide-wrapper"><article>
+<p>常见社区模块：</p>
+<ul>
+<li><a href="http://www.expressjs.com.cn/starter/hello-world.html" target="_blank">express</a></li>
+<li><a href="https://www.npmjs.com/package/mysql" target="_blank">mysql</a> / <a href="https://www.npmjs.com/package/mysql2" target="_blank">mysql2</a></li>
+<li><a href="https://demopark.github.io/sequelize-docs-Zh-CN/" target="_blank">sequelize</a></li>
+<li><a href="https://www.npmjs.com/package/mongodb" target="_blank">mongodb</a></li>
+</ul>
+
+</article></section></slide>
+        
+
+        <!-- <slide class="slide logoslide dark nobackground">
+            <article class="flexbox vcenter">
+                <h2 style="color: white;">Powered By nodeppt v1.4.5</h2>
+            </article>
+        </slide> -->
+        <div class="slideTip" id="tip"></div>
+    </slides>
+</div>
+<canvas id="drawBoard" class="draw-board" width="900" height="700"></canvas>
+<div class="progress"><span id="progress"></span></div>
+<div id="_buttons">
+    <div class="_btn-box" id="_btn-box" style="display:none;">
+        <button class="fa fa-arrow-circle-left" id="_btn-prev"></button>
+        <button class="fa fa-arrow-circle-right" id="_btn-next"></button>
+        <button class="fa fa-paint-brush" id="_btn-brush"></button>
+        <button class="fa fa-compress" id="_btn-overview" data-toggle="fa fa-expand"></button>
+    </div>
+    <button class="fa fa-bars" id="_btn-bar"  data-toggle="fa fa-close"></button>
+</div>
+<script src="assets/js/mixjs/lib/mix.0.3.0.min.js"></script>
+<script>
+    var ASSET_RELATIVE_DIR = "assets";
+</script>
+<script>
+var base = location.protocol + '//' + location.host;
+
+var path = (location.pathname + '#').split('/').filter(function(v){
+    return !!v;
+});
+path.pop();
+path = path.join('/');
+if (typeof ASSET_RELATIVE_DIR === 'string') {
+    path = path + '/' + ASSET_RELATIVE_DIR;
+}
+MixJS.config({
+    baseURL: [ base, path, 'js'].join('/')+'/'
+});
+
+</script>
+<script src="assets/js/mixjs/lib/event/broadcast.js"></script>
+<script src="assets/js/nodeppt.js"></script>
+<script>
+Slide.init({
+    containerID: 'container',
+    drawBoardID: 'drawBoard',
+    slideClass: '.slide',
+    buildClass: '.build',
+    progressID: 'progress',
+    transition: 'slide2',
+    width: 1100,
+    dir: './',
+    
+    //打开下面的注释就开启postMessage方式
+    //访问网址127.0.0.1:8080/ppt/demo#client
+    control:{
+        type: 'postMessage',
+        args:{
+            isControl:  false
+        }
+    },
+    
+    tipID: 'tip'
+});
+MixJS.loadJS('highlight/highlight.pack.js',function(){
+    hljs.tabReplace = '  ';
+    hljs.initHighlightingOnLoad();
+});
+</script>
+
+
+<!-- MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  config: ["TeX-AMS-MML_HTMLorMML.js"],
+  tex2jax: {inlineMath: [['\\(','\\)']]}});
+  //['$','$'], 避免货币价格冲突
+</script>
+<script type="text/javascript" src="assets/js/mathjax/MathJax.js"></script>
+
+<!--placeholder-->
+</body>
+</html>
